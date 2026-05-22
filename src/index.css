@@ -1,0 +1,84 @@
+:root {
+  font-family: Lato, 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #23403f;
+  background:
+    radial-gradient(circle at top left, rgba(99, 182, 109, 0.16), transparent 28%),
+    linear-gradient(180deg, #f8faf7 0%, #f4f7f1 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --text-strong: #10261c;
+  --text-soft: #4a635d;
+  --accent: #3c7a89;
+  --accent-dark: #29555f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+body,
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-strong);
+  line-height: 1.1;
+}
+
+h1 {
+  font-size: clamp(2.6rem, 5vw, 4.8rem);
+  letter-spacing: -0.04em;
+  margin-bottom: 18px;
+}
+
+h2 {
+  font-size: clamp(1.9rem, 3vw, 3rem);
+  margin-bottom: 16px;
+}
+
+h3 {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+p,
+li,
+input,
+textarea,
+button {
+  font-size: 1rem;
+}
+
+#root {
+  min-height: 100vh;
+}
