@@ -97,6 +97,13 @@
   font: inherit;
 }
 
+.action-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
 .site-nav button {
   border: 0;
   background: transparent;
@@ -337,6 +344,30 @@
 .product-detail-copy {
   display: grid;
   gap: 18px;
+}
+
+.faq-list {
+  display: grid;
+  gap: 16px;
+}
+
+.faq-item {
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(13, 20, 26, 0.08);
+  box-shadow: 0 12px 30px rgba(13, 20, 26, 0.05);
+  padding: 18px 22px;
+}
+
+.faq-item summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.faq-item p {
+  margin: 12px 0 0;
+  color: var(--text-soft);
 }
 
 .gallery-shell {

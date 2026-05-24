@@ -12,6 +12,14 @@ import softStepImage from './assets/soft-step.avif'
 import showcaseGrass from './assets/showcase-grass.avif'
 import './App.css'
 
+const site = {
+  url: 'https://artificialgrassinstallersperth.com.au',
+  name: 'Artificial Grass Installers Perth',
+  locality: 'Perth',
+  region: 'WA',
+  country: 'AU',
+}
+
 const contact = {
   phone: '+61 450 421 636',
   phoneHref: 'tel:+61450421636',
@@ -31,6 +39,24 @@ const navItems = [
   ['Blog', '/blog'],
   ['Contact', '/contact'],
   ['Appointment', '/appointment'],
+]
+
+const faqItems = [
+  {
+    question: 'Do you supply and install artificial grass across Perth?',
+    answer:
+      'Yes. The site is positioned for Perth enquiries covering artificial grass supply, product selection, and installation-focused quote requests.',
+  },
+  {
+    question: 'Can I buy a turf product directly from the website?',
+    answer:
+      'Right now the site is set up for product enquiries, quotes, phone calls, and WhatsApp orders. Full online checkout can be added next with Shopify or another ecommerce integration.',
+  },
+  {
+    question: 'Which turf is best for pets, putting greens, or family yards?',
+    answer:
+      'PetPaw Turf suits pet-focused areas, Pro Putt Green suits putting and practice zones, and Family Green or Soft Step are strong options for everyday family use.',
+  },
 ]
 
 const pageMeta = {
@@ -239,19 +265,174 @@ function usePathname() {
   return { pathname, navigate }
 }
 
+function createWhatsAppLink(message) {
+  return `https://wa.me/61450421636?text=${encodeURIComponent(message)}`
+}
+
+function setHeadTag(selector, createTag, attributes) {
+  let element = document.head.querySelector(selector)
+
+  if (!element) {
+    element = document.createElement(createTag)
+    document.head.appendChild(element)
+  }
+
+  Object.entries(attributes).forEach(([key, value]) => {
+    element.setAttribute(key, value)
+  })
+}
+
+function getSchemas(pathname, currentProduct) {
+  const pageUrl = `${site.url}${pathname === '/' ? '' : pathname}`
+  const businessSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: site.name,
+    url: site.url,
+    telephone: contact.phone,
+    email: contact.email,
+    image: `${site.url}/favicon.jpeg`,
+    areaServed: {
+      '@type': 'City',
+      name: site.locality,
+    },
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: site.locality,
+      addressRegion: site.region,
+      addressCountry: site.country,
+    },
+    sameAs: [contact.facebook, contact.instagram],
+  }
+
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: site.name,
+    url: site.url,
+  }
+
+  const breadcrumbItems = [{ '@type': 'ListItem', position: 1, name: 'Home', item: site.url }]
+
+  if (pathname === '/products') {
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Products',
+      item: `${site.url}/products`,
+    })
+  }
+
+  if (currentProduct) {
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Products',
+      item: `${site.url}/products`,
+    })
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: 3,
+      name: currentProduct.name,
+      item: pageUrl,
+    })
+  }
+
+  const schemas = [
+    websiteSchema,
+    businessSchema,
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbItems,
+    },
+  ]
+
+  if (pathname === '/') {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqItems.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
+    })
+  }
+
+  if (currentProduct) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: currentProduct.name,
+      image: [`${window.location.origin}${currentProduct.image}`],
+      description: currentProduct.detailText,
+      brand: {
+        '@type': 'Brand',
+        name: site.name,
+      },
+      category: 'Artificial Grass',
+      url: pageUrl,
+    })
+  }
+
+  return schemas
+}
+
 function App() {
   const { pathname, navigate } = usePathname()
   const normalizedPath = pageMeta[pathname] ? pathname : '/'
   const currentMeta = pageMeta[normalizedPath]
+  const currentProduct = products.find((product) => product.slug === normalizedPath) ?? null
 
   useEffect(() => {
     document.title = `${currentMeta.title} | Artificial Grass Installers Perth`
 
-    const description = document.querySelector('meta[name="description"]')
-    if (description) {
-      description.setAttribute('content', currentMeta.description)
+    setHeadTag('meta[name="description"]', 'meta', {
+      name: 'description',
+      content: currentMeta.description,
+    })
+    setHeadTag('meta[property="og:title"]', 'meta', {
+      property: 'og:title',
+      content: `${currentMeta.title} | Artificial Grass Installers Perth`,
+    })
+    setHeadTag('meta[property="og:description"]', 'meta', {
+      property: 'og:description',
+      content: currentMeta.description,
+    })
+    setHeadTag('meta[property="og:url"]', 'meta', {
+      property: 'og:url',
+      content: `${site.url}${normalizedPath === '/' ? '' : normalizedPath}`,
+    })
+    setHeadTag('meta[property="og:type"]', 'meta', {
+      property: 'og:type',
+      content: currentProduct ? 'product' : 'website',
+    })
+    setHeadTag('meta[name="twitter:card"]', 'meta', {
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    })
+    setHeadTag('meta[name="robots"]', 'meta', {
+      name: 'robots',
+      content: 'index,follow,max-image-preview:large',
+    })
+    setHeadTag('link[rel="canonical"]', 'link', {
+      rel: 'canonical',
+      href: `${site.url}${normalizedPath === '/' ? '' : normalizedPath}`,
+    })
+    setHeadTag('#site-schema', 'script', {
+      id: 'site-schema',
+      type: 'application/ld+json',
+    })
+
+    const schemaTag = document.head.querySelector('#site-schema')
+    if (schemaTag) {
+      schemaTag.textContent = JSON.stringify(getSchemas(normalizedPath, currentProduct))
     }
-  }, [currentMeta])
+  }, [currentMeta, normalizedPath, currentProduct])
 
   return (
     <div className="site-shell">
@@ -362,6 +543,22 @@ function HomePage({ onNavigate }) {
           {benefits.map((item) => (
             <li key={item}>{item}</li>
           ))}
+        </ul>
+      </section>
+      <section className="section two-column">
+        <div>
+          <p className="section-label">Perth focus</p>
+          <h2>Built to rank and convert for Perth enquiries</h2>
+          <p className="lead">
+            This site is now positioned around Perth-focused artificial grass searches, product
+            discovery, quote requests, and direct contact by phone or WhatsApp.
+          </p>
+        </div>
+        <ul className="feature-list">
+          <li>Perth-targeted page titles and descriptions</li>
+          <li>Product pages for turf-specific search intent</li>
+          <li>Fast contact actions for calls, quotes, and WhatsApp orders</li>
+          <li>Ready for Google indexing with sitemap and robots files</li>
         </ul>
       </section>
       <section className="section">
@@ -484,6 +681,22 @@ function HomePage({ onNavigate }) {
           and low-maintenance.”
         </blockquote>
         <p className="testimonial-author">Sarah J.</p>
+      </section>
+      <section className="section">
+        <div className="section-heading">
+          <div>
+            <p className="section-label">FAQ</p>
+            <h2>Common questions about artificial grass in Perth</h2>
+          </div>
+        </div>
+        <div className="faq-list">
+          {faqItems.map((faq) => (
+            <details key={faq.question} className="faq-item">
+              <summary>{faq.question}</summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))}
+        </div>
       </section>
       <section className="section cta-band">
         <div>
@@ -621,13 +834,23 @@ function ProductsPage({ onNavigate }) {
               <p className="section-label">Featured product</p>
               <h3>{product.name}</h3>
               <p>{product.shortText}</p>
-              <button
-                type="button"
-                className="primary-button"
-                onClick={() => onNavigate(product.slug)}
-              >
-                View details
-              </button>
+              <div className="hero-actions">
+                <button
+                  type="button"
+                  className="primary-button"
+                  onClick={() => onNavigate(product.slug)}
+                >
+                  View details
+                </button>
+                <a
+                  className="secondary-button action-link"
+                  href={createWhatsAppLink(`Hi, I want pricing for ${product.name}.`)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  WhatsApp pricing
+                </a>
+              </div>
             </article>
           ))}
         </div>
@@ -655,6 +878,14 @@ function ProductDetailPage({ onNavigate, product }) {
             <button type="button" className="primary-button" onClick={() => onNavigate('/contact')}>
               Enquire now
             </button>
+            <a
+              className="secondary-button action-link"
+              href={createWhatsAppLink(`Hi, I want to order or get a quote for ${product.name}.`)}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Order on WhatsApp
+            </a>
             <button type="button" className="secondary-button" onClick={() => onNavigate('/products')}>
               Back to products
             </button>
