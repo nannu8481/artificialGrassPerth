@@ -3,7 +3,12 @@ import galleryOne from './assets/gallery-one.avif'
 import galleryTwo from './assets/gallery-two.avif'
 import grassDetail from './assets/grass-detail.jpg'
 import grassHero from './assets/grass-hero.png'
-import logoGrass from './assets/logo-grass.avif'
+import familyGreenImage from './assets/family-green.avif'
+import headerLogo from './assets/header-logo.jpeg'
+import petPawTurfImage from './assets/pet-paw-turf.avif'
+import prestigeTurfImage from './assets/prestige-turf.avif'
+import proPuttGreenImage from './assets/pro-putt-green.avif'
+import softStepImage from './assets/soft-step.avif'
 import showcaseGrass from './assets/showcase-grass.avif'
 import './App.css'
 
@@ -20,6 +25,7 @@ const contact = {
 
 const navItems = [
   ['Home', '/'],
+  ['Products', '/products'],
   ['About', '/about'],
   ['Services', '/services'],
   ['Blog', '/blog'],
@@ -37,6 +43,36 @@ const pageMeta = {
     title: 'Premium Artificial Grass Installers in Perth',
     description:
       'Transform your outdoor spaces with our eco-friendly artificial grass installation services in Perth. Enjoy a lush lawn year-round without the hassle of maintenance.',
+  },
+  '/products': {
+    title: 'Artificial Grass Products in Perth',
+    description:
+      'Explore our featured artificial grass products, including Pro Putt Green, PetPaw Turf, Prestige Turf, Soft Step, and Family Green for specialized outdoor applications.',
+  },
+  '/products/pro-putt-green': {
+    title: 'Pro Putt Green',
+    description:
+      'Discover Pro Putt Green, a premium artificial grass product ideal for putting greens, golf practice areas, and polished outdoor performance zones.',
+  },
+  '/products/petpaw-turf': {
+    title: 'PetPaw Turf',
+    description:
+      'Discover PetPaw Turf, an artificial grass product designed for pet-friendly outdoor spaces that stay neat, practical, and easy to maintain.',
+  },
+  '/products/prestige-turf': {
+    title: 'Prestige Turf',
+    description:
+      'Discover Prestige Turf, an artificial grass product created for polished outdoor spaces that need a premium look and dependable everyday appeal.',
+  },
+  '/products/soft-step': {
+    title: 'Soft Step',
+    description:
+      'Discover Soft Step, an artificial grass product designed for comfort-focused outdoor areas where a softer underfoot feel and clean finish are important.',
+  },
+  '/products/family-green': {
+    title: 'Family Green',
+    description:
+      'Discover Family Green, an artificial grass product designed for practical family spaces, everyday comfort, and clean outdoor living areas.',
   },
   '/services': {
     title: 'Premium Artificial Grass Installation Services in Perth',
@@ -59,6 +95,79 @@ const pageMeta = {
       'Create a seamless booking experience with our appointment page. Scheduling your appointments is quick and hassle-free.',
   },
 }
+
+const products = [
+  {
+    name: 'Pro Putt Green',
+    slug: '/products/pro-putt-green',
+    image: proPuttGreenImage,
+    shortText:
+      'A premium putting-green style artificial grass designed for smooth performance, practice areas, and standout outdoor presentation.',
+    detailText:
+      'Pro Putt Green is ideal for golf putting zones, backyard practice areas, and feature spaces that need a refined, performance-focused turf finish.',
+    highlights: [
+      'Ideal for home putting greens and golf practice zones',
+      'Smooth, premium visual finish',
+      'Great for standout feature areas in residential or commercial projects',
+    ],
+  },
+  {
+    name: 'PetPaw Turf',
+    slug: '/products/petpaw-turf',
+    image: petPawTurfImage,
+    shortText:
+      'A pet-friendly artificial grass product made for clean, comfortable outdoor areas that are easy to manage every day.',
+    detailText:
+      'PetPaw Turf is suited for backyards, pet runs, and outdoor zones where comfort, tidiness, and lower-maintenance upkeep matter most.',
+    highlights: [
+      'Designed for pet-friendly home and outdoor spaces',
+      'Clean, soft visual finish for everyday use',
+      'Great for creating neat, easy-to-maintain pet zones',
+    ],
+  },
+  {
+    name: 'Prestige Turf',
+    slug: '/products/prestige-turf',
+    image: prestigeTurfImage,
+    shortText:
+      'A premium-looking artificial grass product created for elegant outdoor spaces, statement lawns, and a refined finished appearance.',
+    detailText:
+      'Prestige Turf is suited for residential front yards, backyard entertaining spaces, and polished commercial areas where presentation matters.',
+    highlights: [
+      'Designed for premium-looking outdoor spaces',
+      'Strong visual finish for feature lawns and entertaining areas',
+      'A polished option for residential and commercial presentation',
+    ],
+  },
+  {
+    name: 'Soft Step',
+    slug: '/products/soft-step',
+    image: softStepImage,
+    shortText:
+      'A comfort-focused artificial grass product made for spaces where a softer step, clean appearance, and everyday usability matter.',
+    detailText:
+      'Soft Step is well suited for family backyards, relaxed outdoor areas, and spaces where underfoot comfort is just as important as presentation.',
+    highlights: [
+      'Designed for comfort-focused outdoor areas',
+      'A softer-feel option for family and lifestyle spaces',
+      'Keeps outdoor zones neat, polished, and practical for daily use',
+    ],
+  },
+  {
+    name: 'Family Green',
+    slug: '/products/family-green',
+    image: familyGreenImage,
+    shortText:
+      'A family-friendly artificial grass product created for active outdoor living, clean backyards, and comfortable everyday use.',
+    detailText:
+      'Family Green is ideal for family yards, entertaining spaces, and shared outdoor areas where a neat look, comfort, and easy maintenance all matter.',
+    highlights: [
+      'Designed for family-friendly outdoor spaces',
+      'Great for active backyards and everyday outdoor use',
+      'Keeps shared spaces tidy, comfortable, and low-maintenance',
+    ],
+  },
+]
 
 const services = [
   {
@@ -174,7 +283,7 @@ function Header({ currentPath, onNavigate }) {
   return (
     <header className="site-header">
       <button className="brand" type="button" onClick={() => onNavigate('/')}>
-        <img className="brand-logo" src={logoGrass} alt="Artificial Grass Installers Perth logo" />
+        <img className="brand-logo" src={headerLogo} alt="Artificial Grass Installers Perth logo" />
         <span>
           <strong>Artificial Grass</strong>
           <small>Installers Perth</small>
@@ -198,6 +307,18 @@ function Header({ currentPath, onNavigate }) {
 
 function Page({ path, onNavigate }) {
   switch (path) {
+    case '/products':
+      return <ProductsPage onNavigate={onNavigate} />
+    case '/products/pro-putt-green':
+      return <ProductDetailPage onNavigate={onNavigate} product={products[0]} />
+    case '/products/petpaw-turf':
+      return <ProductDetailPage onNavigate={onNavigate} product={products[1]} />
+    case '/products/prestige-turf':
+      return <ProductDetailPage onNavigate={onNavigate} product={products[2]} />
+    case '/products/soft-step':
+      return <ProductDetailPage onNavigate={onNavigate} product={products[3]} />
+    case '/products/family-green':
+      return <ProductDetailPage onNavigate={onNavigate} product={products[4]} />
     case '/about':
       return <AboutPage onNavigate={onNavigate} />
     case '/services':
@@ -259,6 +380,50 @@ function HomePage({ onNavigate }) {
               <img className="card-image" src={service.image} alt={service.name} />
               <h3>{service.name}</h3>
               <p>{service.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className="section">
+        <div className="section-heading">
+          <div>
+            <p className="section-label">Products</p>
+            <h2>Featured artificial grass product</h2>
+          </div>
+          <button type="button" className="text-link" onClick={() => onNavigate('/products')}>
+            View all products
+          </button>
+        </div>
+        <div className="product-grid">
+          {products.map((product) => (
+            <article key={product.slug} className="product-feature">
+              <img className="product-feature-image" src={product.image} alt={product.name} />
+              <div className="product-feature-copy">
+                <p className="section-label">Featured product</p>
+                <h3>{product.name}</h3>
+                <p>{product.shortText}</p>
+                <ul className="feature-list">
+                  {product.highlights.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+                <div className="hero-actions">
+                  <button
+                    type="button"
+                    className="primary-button"
+                    onClick={() => onNavigate(product.slug)}
+                  >
+                    View product
+                  </button>
+                  <button
+                    type="button"
+                    className="secondary-button"
+                    onClick={() => onNavigate('/contact')}
+                  >
+                    Ask about this product
+                  </button>
+                </div>
+              </div>
             </article>
           ))}
         </div>
@@ -436,6 +601,65 @@ function ServicesPage({ onNavigate }) {
         <button type="button" className="primary-button" onClick={() => onNavigate('/contact')}>
           Request a quote
         </button>
+      </section>
+    </>
+  )
+}
+
+function ProductsPage({ onNavigate }) {
+  return (
+    <>
+      <SubHero
+        title="Artificial Grass Products"
+        text="Browse our growing product range for different finishes, use cases, and outdoor project styles."
+      />
+      <section className="section">
+        <div className="product-grid">
+          {products.map((product) => (
+            <article key={product.slug} className="card">
+              <img className="card-image" src={product.image} alt={product.name} />
+              <p className="section-label">Featured product</p>
+              <h3>{product.name}</h3>
+              <p>{product.shortText}</p>
+              <button
+                type="button"
+                className="primary-button"
+                onClick={() => onNavigate(product.slug)}
+              >
+                View details
+              </button>
+            </article>
+          ))}
+        </div>
+      </section>
+    </>
+  )
+}
+
+function ProductDetailPage({ onNavigate, product }) {
+  return (
+    <>
+      <SubHero title={product.name} text={product.shortText} />
+      <section className="section product-detail-layout">
+        <img className="product-detail-image" src={product.image} alt={product.name} />
+        <div className="product-detail-copy">
+          <p className="section-label">Product details</p>
+          <h2>{product.name}</h2>
+          <p>{product.detailText}</p>
+          <ul className="feature-list">
+            {product.highlights.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <div className="hero-actions">
+            <button type="button" className="primary-button" onClick={() => onNavigate('/contact')}>
+              Enquire now
+            </button>
+            <button type="button" className="secondary-button" onClick={() => onNavigate('/products')}>
+              Back to products
+            </button>
+          </div>
+        </div>
       </section>
     </>
   )

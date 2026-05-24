@@ -46,7 +46,13 @@
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  padding: 22px 0;
+  padding: 18px 24px;
+  margin-top: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(13, 20, 26, 0.08);
+  border-radius: 26px;
+  box-shadow: 0 14px 34px rgba(13, 20, 26, 0.08);
+  backdrop-filter: blur(8px);
 }
 
 .brand {
@@ -109,6 +115,7 @@
 .appointment-layout,
 .contact-layout,
 .blog-layout,
+.product-detail-layout,
 .two-column,
 .showcase,
 .cta-band {
@@ -249,6 +256,12 @@
   gap: 22px;
 }
 
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
 .card,
 .blog-card,
 .blog-post,
@@ -281,6 +294,47 @@
 }
 
 .showcase-copy {
+  display: grid;
+  gap: 18px;
+}
+
+.product-feature,
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.product-feature {
+  padding: 28px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(13, 20, 26, 0.08);
+  box-shadow: 0 18px 40px rgba(13, 20, 26, 0.06);
+}
+
+.product-feature-image,
+.product-detail-image {
+  width: 100%;
+  border-radius: 26px;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 24px 48px rgba(13, 20, 26, 0.12);
+}
+
+.product-feature-image {
+  min-height: 320px;
+  max-height: 380px;
+}
+
+.product-detail-image {
+  min-height: 420px;
+  max-height: 520px;
+}
+
+.product-feature-copy,
+.product-detail-copy {
   display: grid;
   gap: 18px;
 }
@@ -495,6 +549,9 @@
   .contact-layout,
   .appointment-layout,
   .card-grid,
+  .product-grid,
+  .product-feature,
+  .product-detail-layout,
   .gallery-shell,
   .site-footer {
     grid-template-columns: 1fr;
@@ -539,6 +596,11 @@
   .subhero-section,
   .site-footer {
     width: min(100% - 24px, 1180px);
+  }
+
+  .site-header {
+    padding: 16px 18px;
+    margin-top: 10px;
   }
 
   .top-contact-inner a {
